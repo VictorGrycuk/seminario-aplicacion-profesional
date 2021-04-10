@@ -11,7 +11,7 @@ namespace WordFinderChallenge
         private readonly List<string> matrix;
         public WordFinder(IEnumerable<string> matrix)
         {
-            if (matrix.Count() == 0)
+            if (matrix == null || matrix.Count() == 0)
             {
                 throw new ArgumentException("The value of the matrix cannot be empty");
             }
@@ -27,10 +27,21 @@ namespace WordFinderChallenge
             }
 
             this.matrix = (List<string>)matrix;
+            matrixSize = this.matrix.FirstOrDefault().Length;
         }
 
         public IEnumerable<string> Find(IEnumerable<string> wordstream)
         {
+            if (wordstream.Count() != wordstream.Distinct().Count())
+            {
+                throw new ArgumentException("Don't use duplicated words");
+            }
+
+            foreach (var word in wordstream)
+            {
+                FindHorizontal(word);
+            }
+
             throw new NotImplementedException();
         }
     }
