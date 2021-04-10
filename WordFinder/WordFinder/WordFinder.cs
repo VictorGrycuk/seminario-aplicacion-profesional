@@ -9,6 +9,9 @@ namespace WordFinderChallenge
     public class WordFinder
     {
         private readonly List<string> matrix;
+        private readonly int matrixSize;
+        private readonly Dictionary<string, int> wordsFound = new Dictionary<string, int>();
+
         public WordFinder(IEnumerable<string> matrix)
         {
             if (matrix == null || matrix.Count() == 0)
@@ -39,10 +42,50 @@ namespace WordFinderChallenge
 
             foreach (var word in wordstream)
             {
-                FindHorizontal(word);
+                var timesFound = FindHorizontal(word);
+                if (timesFound > 0)
+                {
+                    wordsFound.Add(word, timesFound);
+                }
             }
 
-            throw new NotImplementedException();
+            return SortWordList();
+        }
+
+        private IEnumerable<string> SortWordList()
+        {
+            return wordsFound.OrderBy(x => x.Value)
+                .Take(10)
+                .ToDictionary(pair => pair.Key, pair => pair.Value)
+                .Keys.ToList();
+        }
+
+        private int FindHorizontal(string word)
+        {
+            if (word.Length > matrixSize) return 0;
+
+            int index = 0;
+            int timesFound = 0;
+
+            foreach (var row in matrix)
+            {
+                while (index + word.Length <= row.Length)
+                {
+                    var wordIndex = row.IndexOf(word, index);
+                    timesFound += wordIndex != -1 ? 1 : 0;
+                    
+                    if (wordIndex != -1)
+                    {
+                        index += ++wordIndex;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return timesFound;
         }
     }
 }
