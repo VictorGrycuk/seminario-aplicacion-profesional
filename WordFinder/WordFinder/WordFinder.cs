@@ -47,7 +47,7 @@ namespace WordFinderChallenge
 
             foreach (var word in wordstream)
             {
-                var timesFound = FindHorizontal(word);
+                var timesFound = FindHorizontal(word) + FindVertical(word);
                 if (timesFound > 0)
                 {
                     wordsFound.Add(word, timesFound);
@@ -88,6 +88,34 @@ namespace WordFinderChallenge
                         break;
                     }
                 }
+            }
+
+            return timesFound;
+        }
+
+        private int FindVertical(string word)
+        {
+            int timesFound = 0;
+            var flattenedMatrix = string.Join(null, matrix);
+            var index = flattenedMatrix.IndexOf(word[0]);
+
+            while (index != -1)
+            {
+                var wholeWord = true;
+                var initialIndex = index;
+                foreach (var letter in word)
+                {
+                    if (index >= flattenedMatrix.Length || letter != flattenedMatrix[index])
+                    {
+                        wholeWord = false;
+                        break;
+                    }
+
+                    index += matrixSize;
+                }
+
+                timesFound += wholeWord ? 1 : 0;
+                index = flattenedMatrix.IndexOf(word[0], initialIndex + 1);
             }
 
             return timesFound;

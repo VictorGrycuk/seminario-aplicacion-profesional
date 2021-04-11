@@ -47,6 +47,27 @@ namespace WordFinderTest
         }
 
         [Fact]
+        public void Should_Find_Words_In_Columns()
+        {
+            var words = new List<string> { "cat", "eye", "dad", "dog" };
+            var matrix = new List<string>
+            {
+                "cxxxx",
+                "aexxx",
+                "tydxx",
+                "xeaxx",
+                "xxdxx"
+            };
+
+            var wordsFound = new WordFinder(matrix).Find(words);
+
+            Assert.Equal("cat", wordsFound.ToList()[0]);
+            Assert.Equal("eye", wordsFound.ToList()[1]);
+            Assert.Equal("dad", wordsFound.ToList()[2]);
+            Assert.Equal(3, wordsFound.Count());
+        }
+
+        [Fact]
         public void Should_Find_Overlapped_Words_In_Rows()
         {
             var words = new List<string> { "dad", "dog" };
@@ -57,6 +78,25 @@ namespace WordFinderTest
                 "xxdad",
                 "xxxxy",
                 "xxxxz"
+            };
+
+            var wordsFound = new WordFinder(matrix).Find(words);
+
+            Assert.Equal("dad", wordsFound.ToList()[0]);
+            Assert.Equal(2, wordsFound.Count());
+        }
+
+        [Fact]
+        public void Should_Find_Overlapped_Words_In_Columns()
+        {
+            var words = new List<string> { "dad", "dog" };
+            var matrix = new List<string>
+            {
+                "dxxxx",
+                "axxxx",
+                "dxxxx",
+                "oxxxx",
+                "gxxxx"
             };
 
             var wordsFound = new WordFinder(matrix).Find(words);
