@@ -11,6 +11,21 @@ namespace WordFinderTest
     public class WordFinderTestFind
     {
         [Fact]
+        public void Should_Not_Allow_Empty_Strings_To_Search()
+        {
+            var words = new List<string>();
+            var matrix = new List<string>
+            {
+                "abc",
+                "def",
+                "ghi",
+            };
+
+            var exception = Assert.Throws<ArgumentException>(() => new WordFinder(matrix).Find(words));
+            Assert.Equal("You must pass at least one word to earch", exception.Message);
+        }
+
+        [Fact]
         public void Should_Find_Words_In_Rows()
         {
             var words = new List<string> { "cat", "eye", "dad", "dog" };

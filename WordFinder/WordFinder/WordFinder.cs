@@ -35,6 +35,11 @@ namespace WordFinderChallenge
 
         public IEnumerable<string> Find(IEnumerable<string> wordstream)
         {
+            if (wordstream.Count() == 0)
+            {
+                throw new ArgumentException("You must pass at least one word to earch");
+            }
+            
             if (wordstream.Count() != wordstream.Distinct().Count())
             {
                 throw new ArgumentException("Don't use duplicated words");
