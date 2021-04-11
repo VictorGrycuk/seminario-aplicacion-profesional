@@ -54,7 +54,7 @@ namespace WordFinderChallenge
 
         private IEnumerable<string> SortWordList()
         {
-            return wordsFound.OrderBy(x => x.Value)
+            return wordsFound.OrderByDescending(x => x.Value)
                 .Take(10)
                 .ToDictionary(pair => pair.Key, pair => pair.Value)
                 .Keys.ToList();
