@@ -73,7 +73,7 @@ namespace WordFinderTest
         [Fact]
         public void Should_Return_Empty_String_List_When_No_Word_Is_Found()
         {
-            var words = new List<string> { "cat", "eye", "dog" };
+            var words = new List<string> { "cold" };
             var matrix = new List<string>
             {
                 "dogxx",
@@ -85,9 +85,7 @@ namespace WordFinderTest
 
             var wordsFound = new WordFinder(matrix).Find(words);
 
-            Assert.Equal("eye", wordsFound.ToList()[0]);
-            Assert.Equal("dog", wordsFound.ToList()[1]);
-            Assert.Equal("cat", wordsFound.ToList()[2]);
+            Assert.Empty(wordsFound);
         }
     }
 }
