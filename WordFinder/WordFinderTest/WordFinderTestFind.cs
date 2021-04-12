@@ -221,5 +221,106 @@ namespace WordFinderTest
             Assert.Equal("eye", wordsFound.ToList()[0]);
             Assert.Equal("eve", wordsFound.ToList()[1]);
         }
+
+        [Fact]
+        public void Should_Limit_To_The_10_Topmost_Found_Words()
+        {
+            var words = new List<string>
+            {
+                "second",
+                "fourth",
+                "first",
+                "sixth",
+                "fifth",
+                "third",
+                "elevent",
+                "eighth",
+                "ninth",
+                "seventh",
+                "tenth",
+            };
+            var matrix = new List<string>
+            {
+                "firstxxxxxxxfifthxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxeleventhxxxxxxxxxx",
+                "ixxxxxxxxxxxxxfifthxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "rxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "sxxxxxxxxxxxxxxxxxfxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "tfirstxxxxxxxxxxxxixxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxfxxxxxxxxxxxxfxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxixxxxxxxxxxxxtxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxrxxxxxxxxxxxxhfifthxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxfxxsxxxxxxxxxxxxxxxxxfifthxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxixxtfirstxxxxxxxxxxxxixxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxrxxxxxxxxxxxxxxxxxxxxfifthxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxsxxfirstfxxxxxxxxxxxxtxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxtxxxxxxxixxxxxxxxsixthsixthxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxrxxxxxxxxxxxxxxxxxsxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxsxxxxxxxxxxxxxxxxxixxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxtxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxfirstxxxxxxxxxxxxxtxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxfxxxxxxxxxxxxxhsixthsxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxixxxxxxxxxxxxxxxxxxxixxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxfirstsecondxxxxxxxxxxxxtxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxtxxxxxsecondxxxxxxxxhsixthxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxexxxxxxxxxxxxxxseventhsxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxcxxxxxxxxxxxxxxxxxxxxxexxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxoxxxxxxxxxxxxxxxxxxxxxvxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxnsecondsxxxxxxxxxxxxxxexxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxdxxxxxxexxsxxxxxxxxxxxnxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxcxxexxxxxxxxxxxtxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxoxxcxxxxxxxxxxxhxxxsxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxnxxoxxxxxxxxxxxxseventhxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxsdxxnxxxxxxxxxxxxxxxvxxxxxxxxxxxexxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxsecondxxxxxxxxxxxxxxxexxxxxxxxxxxixxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxcxxxxxxxxxxxxxxxxxxxnxxxxxxxxxexgxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxoxxxxxxxxxxxxxxxxxxxtxxxxxxxxxixhxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxnxxxxxxxxxxxxxxxxxxxhseventhxxgxtxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxdxxxxxxxxxtxxxxxxxxxxxxxxxxeighthxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxsecondxxxxxxxhxxxxxxxxxxxxxxxxxxxtxxeighth",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxsecondthirdxxxxxxxxxxxxxxxxxhxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxthirdxxxxxxxxxxxxxxxxxxnxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxthirdxxxxxxxxxxxxxxxxxxxixxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxhxxxxxxxxxxxxxxxxxxxxxxxnxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxixxxxxxxxxxxxxxxxxxxxxxxtxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxrxxxxxxxxxxxxxxxxxxxninthxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxdxxxxxxxxxxxxxxxxxxxxninthxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxthirdxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxtxxxxxxxxxxxxxxxxxxxxxtxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxhxxxxxxxxxxxxxxxxxxxxxexxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxixxxxxxxxxxxxxxxxxxxxxnxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxrxxxxxxxxxxxxxxxxxxxxxtxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxdthirdtxxxxxxxxxxxxxxxhtenthxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxhxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxixxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxfourthxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxoxxdxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxuxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxrxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxfourthfxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxhxxoxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxuxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxrxxxxxxxfxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxtxxxxxxxoxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxhxxxxxxxuxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxfourthxxxxxxxrxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxfourthxxxxtxxxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxfourthxxxxxxxxxxxxxxxxx"
+            };
+
+            var wordsFound = new WordFinder(matrix).Find(words);
+
+            Assert.Equal("first", wordsFound.ToList()[0]);
+            Assert.Equal("second", wordsFound.ToList()[1]);
+            Assert.Equal("third", wordsFound.ToList()[2]);
+            Assert.Equal("fourth", wordsFound.ToList()[3]);
+            Assert.Equal("fifth", wordsFound.ToList()[4]);
+            Assert.Equal("sixth", wordsFound.ToList()[5]);
+            Assert.Equal("seventh", wordsFound.ToList()[6]);
+            Assert.Equal("eighth", wordsFound.ToList()[7]);
+            Assert.Equal("ninth", wordsFound.ToList()[8]);
+            Assert.Equal("tenth", wordsFound.ToList()[9]);
+            Assert.Equal(10, wordsFound.Count());
+        }
     }
 }

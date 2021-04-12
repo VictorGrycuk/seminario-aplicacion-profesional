@@ -88,6 +88,7 @@ namespace WordFinderChallenge
                         break;
                     }
                 }
+                index = 0;
             }
 
             return timesFound;
