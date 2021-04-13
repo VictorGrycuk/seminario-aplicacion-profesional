@@ -40,6 +40,8 @@ namespace WordFinderChallenge
 
         public IEnumerable<string> Find(IEnumerable<string> wordstream)
         {
+            wordsFound.Clear();
+
             if (wordstream.Count() == 0)
             {
                 throw new ArgumentException("You must pass at least one word to each");
