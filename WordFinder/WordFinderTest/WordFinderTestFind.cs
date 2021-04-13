@@ -20,7 +20,7 @@ namespace WordFinderTest
             };
 
             var exception = Assert.Throws<ArgumentException>(() => new WordFinder(matrix).Find(words));
-            Assert.Equal("You must pass at least one word to earch", exception.Message);
+            Assert.Equal("You must pass at least one word to each", exception.Message);
         }
 
         [Fact]
@@ -138,6 +138,44 @@ namespace WordFinderTest
             Assert.Equal("eye", wordsFound.ToList()[0]);
             Assert.Equal("dog", wordsFound.ToList()[1]);
             Assert.Equal("cat", wordsFound.ToList()[2]);
+        }
+
+        [Fact]
+        public void Should_Find_Capitalized_Words()
+        {
+            var words = new List<string> { "DAD", "DOG" };
+            var matrix = new List<string>
+            {
+                "dadxx",
+                "ocatx",
+                "gxdad",
+                "xxxxy",
+                "xxxxz"
+            };
+
+            var wordsFound = new WordFinder(matrix).Find(words);
+
+            Assert.Equal("DAD", wordsFound.ToList()[0]);
+            Assert.Equal("DOG", wordsFound.ToList()[1]);
+        }
+
+        [Fact]
+        public void Should_Normalize_Matrix_Capitalization()
+        {
+            var words = new List<string> { "dad", "dog" };
+            var matrix = new List<string>
+            {
+                "DADxx",
+                "Ocatx",
+                "Gxdad",
+                "xxxxy",
+                "xxxxz"
+            };
+
+            var wordsFound = new WordFinder(matrix).Find(words);
+
+            Assert.Equal("dad", wordsFound.ToList()[0]);
+            Assert.Equal("dog", wordsFound.ToList()[1]);
         }
 
         [Fact]

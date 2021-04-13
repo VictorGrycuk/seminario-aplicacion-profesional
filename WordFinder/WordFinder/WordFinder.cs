@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WordFinderChallenge
 {
@@ -11,6 +9,13 @@ namespace WordFinderChallenge
         private readonly List<string> matrix;
         private readonly int matrixSize;
         private readonly Dictionary<string, int> wordsFound = new Dictionary<string, int>();
+
+        private enum Orientation
+        {
+            NONE,
+            LEFT,
+            RIGHT
+        }
 
         public WordFinder(IEnumerable<string> matrix)
         {
@@ -29,7 +34,7 @@ namespace WordFinderChallenge
                 throw new ArgumentException("The matrix has to be square");
             }
 
-            this.matrix = (List<string>)matrix;
+            this.matrix = ((List<string>)matrix).ConvertAll(x => x.ToLower());
             matrixSize = this.matrix.FirstOrDefault().Length;
         }
 
@@ -37,7 +42,7 @@ namespace WordFinderChallenge
         {
             if (wordstream.Count() == 0)
             {
-                throw new ArgumentException("You must pass at least one word to earch");
+                throw new ArgumentException("You must pass at least one word to each");
             }
             
             if (wordstream.Count() != wordstream.Distinct().Count())
@@ -67,6 +72,7 @@ namespace WordFinderChallenge
 
         private int FindHorizontal(string word)
         {
+            word = word.ToLower();
             if (word.Length > matrixSize) return 0;
 
             int index = 0;
@@ -103,6 +109,7 @@ namespace WordFinderChallenge
 
         private int FindInFlattenedMatrix(string word, Orientation orientation = Orientation.NONE)
         {
+            word = word.ToLower();
             int timesFound = 0;
             var flattenedMatrix = string.Join(null, matrix);
             var index = flattenedMatrix.IndexOf(word[0]);
@@ -132,13 +139,6 @@ namespace WordFinderChallenge
             }
 
             return timesFound;
-        }
-
-        private enum Orientation
-        {
-            NONE,
-            LEFT,
-            RIGHT
         }
     }
 }
