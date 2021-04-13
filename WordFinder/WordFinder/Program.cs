@@ -14,6 +14,9 @@ namespace WordFinderChallenge
                 "You can enter multiple words by separating them witha comma, no space.\n" +
                 "(Hint: try 'strawberry', 'Television', 'CHARACTERS')\n\n");
 
+            // Es un poco mucho, pero es lo que pedía el ejercicio.
+            // iba a poner más palabras para encontrar, pero creo que la idea
+            // se ve mejor en los tests
             var matrix = new List<string>
             {
                 "TBMJepWeENbOcPEHfyZCZYQyqwkpKYgQIbZFXpfsLySGPxhBJnxsLvzTjRuLoAOG",

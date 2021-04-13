@@ -19,6 +19,9 @@ namespace WordFinderChallenge
 
         public WordFinder(IEnumerable<string> matrix)
         {
+            // El constructor de WordFinder tiene algunas validaciones para poder hacer las
+            // búsquedas mas facil, además de evitar errores comunes.
+
             if (matrix == null || matrix.Count() == 0)
             {
                 throw new ArgumentException("The value of the matrix cannot be empty");
@@ -34,12 +37,20 @@ namespace WordFinderChallenge
                 throw new ArgumentException("The matrix has to be square");
             }
 
+            // Se normaliza las mayusculas en minusculas usando linq,
+            // de nuevo para hacer las busquedas mas fácil
             this.matrix = ((List<string>)matrix).ConvertAll(x => x.ToLower());
+            
+            // El tamaño de la matriz me va a servir más adelante para usarlo como offset
+            // en las busquedas tanto verticales como diagonales
             matrixSize = this.matrix.FirstOrDefault().Length;
         }
 
         public IEnumerable<string> Find(IEnumerable<string> wordstream)
         {
+            // Basicamente por cada palabra buscada se utilizan 3 estrategias diferentes,
+            // luego se suman los resultados de cada busqueda, y si hubo alguna coincidencia,
+            // se agrega a un diccionario junto con el numero de coincidencias
             wordsFound.Clear();
 
             if (wordstream.Count() == 0)
@@ -66,6 +77,8 @@ namespace WordFinderChallenge
 
         private IEnumerable<string> SortWordList()
         {
+            // Este metodo se usa para ordenar de mayor a menor las palabras encontrads,
+            // y limitarlas a las primeras 10
             return wordsFound.OrderByDescending(x => x.Value)
                 .Take(10)
                 .ToDictionary(pair => pair.Key, pair => pair.Value)
@@ -74,6 +87,11 @@ namespace WordFinderChallenge
 
         private int FindHorizontal(string word)
         {
+            // La busqueda horizontal consiste en buscar la palabra buscada en cada fila,
+            // si hay coincidencia se suma 1 al contador, y se vuelve a buscar en la misma
+            // fila sumando 1 al indice de busqueda en caso de que la misma palabra
+            // se encuentre varias veces en la misma fila
+
             word = word.ToLower();
             if (word.Length > matrixSize) return 0;
 
@@ -111,6 +129,14 @@ namespace WordFinderChallenge
 
         private int FindInFlattenedMatrix(string word, Orientation orientation = Orientation.NONE)
         {
+            // Tanto la busqueda vertical como horizontal utilizan la misma estrategia,
+            // solo difieren en el offset del indice en cual comparar los caracteres.
+            // La idea es tratar a la matriz como una sola cadena de caracteres. En la
+            // búsqueda vertical, los caracteres de la palabra se van a encontrar cada x
+            // posiciones, donde x es el ancho de la matriz. La busqueda diagonal es identica
+            // salvo que la posición va a estar un caracter menos o un caracter mas que en la
+            // búsqueda vertical.
+
             word = word.ToLower();
             int timesFound = 0;
             var flattenedMatrix = string.Join(null, matrix);
