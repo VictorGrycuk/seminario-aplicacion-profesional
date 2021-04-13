@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WordFinderChallenge;
 using Xunit;
 
@@ -65,6 +63,23 @@ namespace WordFinderTest
             Assert.Equal("eye", wordsFound.ToList()[1]);
             Assert.Equal("dad", wordsFound.ToList()[2]);
             Assert.Equal(3, wordsFound.Count());
+        }
+
+        [Fact]
+        public void Should_Find_Words_In_Diagonal()
+        {
+            var words = new List<string> { "cat", "dad" };
+            var matrix = new List<string>
+            {
+                "cxd",
+                "xax",
+                "dxt"
+            };
+
+            var wordsFound = new WordFinder(matrix).Find(words);
+
+            Assert.Equal("cat", wordsFound.ToList()[0]);
+            Assert.Equal("dad", wordsFound.ToList()[1]);
         }
 
         [Fact]

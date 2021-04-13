@@ -47,7 +47,7 @@ namespace WordFinderChallenge
 
             foreach (var word in wordstream)
             {
-                var timesFound = FindHorizontal(word) + FindVertical(word);
+                var timesFound = FindHorizontal(word) + FindVertical(word) + FindDiagonal(word);
                 if (timesFound > 0)
                 {
                     wordsFound.Add(word, timesFound);
@@ -94,11 +94,23 @@ namespace WordFinderChallenge
             return timesFound;
         }
 
-        private int FindVertical(string word)
+        private int FindVertical(string word) => FindInFlattenedMatrix(word);
+
+        private int FindDiagonal(string word)
+        {
+            return FindInFlattenedMatrix(word, Orientation.RIGHT) + FindInFlattenedMatrix(word, Orientation.LEFT);
+        }
+
+        private int FindInFlattenedMatrix(string word, Orientation orientation = Orientation.NONE)
         {
             int timesFound = 0;
             var flattenedMatrix = string.Join(null, matrix);
             var index = flattenedMatrix.IndexOf(word[0]);
+            var offset = orientation == Orientation.NONE
+                ? 0
+                : orientation == Orientation.LEFT
+                    ? -1
+                    : 1;
 
             while (index != -1)
             {
@@ -112,7 +124,7 @@ namespace WordFinderChallenge
                         break;
                     }
 
-                    index += matrixSize;
+                    index += matrixSize + offset;
                 }
 
                 timesFound += wholeWord ? 1 : 0;
@@ -120,6 +132,13 @@ namespace WordFinderChallenge
             }
 
             return timesFound;
+        }
+
+        private enum Orientation
+        {
+            NONE,
+            LEFT,
+            RIGHT
         }
     }
 }
